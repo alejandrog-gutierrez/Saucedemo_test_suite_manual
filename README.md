@@ -7,15 +7,20 @@
 
 ---
 
-## 1. What is this?
+## What is this?
 
 Saucedemo (https://www.saucedemo.com/) is a mock e-commerce web application built by Sauce Labs as a testing sandbox. It simulates a complete online shopping flow — from login, through product browsing and cart management, all the way to checkout and order completion — with a fixed set of products and a fixed set of user accounts, each designed to exhibit different behaviors.
 
 This entry documents the full design and execution of a manual QA test suite covering the UX/UI and functional aspects of the application across all available user types and multiple platforms.
 
+![UI Testing](https://img.shields.io/badge/UI_Testing-Manual-4CAF50?style=flat-square)
+![UX Testing](https://img.shields.io/badge/UX_Testing-Validated-2196F3?style=flat-square)
+![Functional Testing](https://img.shields.io/badge/Functional_Testing-Test_Suite-FF9800?style=flat-square)
+![Compatibility Testing](https://img.shields.io/badge/Compatibility_Testing-Cross--Platform-9C27B0?style=flat-square)
+
 ---
 
-## 2. Product / Functionality — What Did I Test?
+## Product / Functionality — What Did I Test?
 
 The test suite covered the complete end-to-end flow of the application:
 
@@ -52,7 +57,7 @@ Compatibility testing was also performed for `standard_user` across three platfo
 
 ---
 
-## 3. Objective
+## Objective
 
 The goal of this test suite was to evaluate the robustness of the Saucedemo web application by designing and executing a comprehensive test suite covering both UX/UI and functional aspects of the app.
 
@@ -62,7 +67,25 @@ Functional testing went beyond the happy path. Negative and edge case scenarios 
 
 ---
 
-## 4. Scope
+## Tools Used
+![Chrome](https://img.shields.io/badge/Chrome-Testing-4285F4?style=flat-square)
+![Edge](https://img.shields.io/badge/Edge-Testing-0078D7?style=flat-square)
+![Chrome DevTools](https://img.shields.io/badge/Chrome_DevTools-Debugging-FBBC05?style=flat-square)
+![Android Chrome](https://img.shields.io/badge/Android_Chrome-Mobile_Testing-34A853?style=flat-square)
+
+---
+
+## Testing Methodologies
+![Manual Testing](https://img.shields.io/badge/Manual_Testing-2C3E50?style=flat-square)
+![Equivalence Partitioning](https://img.shields.io/badge/Equivalence_Partitioning-8E44AD?style=flat-square)
+![Negative Testing](https://img.shields.io/badge/Negative_Testing-D35400?style=flat-square)
+![Edge Testing](https://img.shields.io/badge/Edge_Testing-16A085?style=flat-square)
+![Compatibility Matrix](https://img.shields.io/badge/Compatibility_Matrix-0E7490?style=flat-square)
+![Exploratory Testing](https://img.shields.io/badge/Exploratory_Testing-7C3AED?style=flat-square)
+
+---
+
+## Scope
 
 **In scope:**
 - Full UX/UI validation of all pages in the purchase flow
@@ -75,25 +98,54 @@ Functional testing went beyond the happy path. Negative and edge case scenarios 
 - Compatibility testing was limited to the UX/UI suite, since functional behavior had already been validated across users in Chrome
 - Performance benchmarking beyond subjective observation (no automated tooling was used)
 - API/backend testing beyond what was observable through Chrome DevTools (Network tab, DOM inspection)
+- Equivalence partitioning for authentication scenarios was limited due to the application's predefined test accounts and lack of field-level validation constraints. As a result, test classes were primarily divided into:
+  - Registered users
+  - Non-registered/invalid users
+
+- Shipping form equivalence classes were also limited by the absence of input restrictions or validation rules. Testing therefore focused on:
+  - Empty field scenarios
+  - Fields containing generic character input
 
 ---
 
-## 5. Artifacts in This Folder
+## Artifacts in This Folder
 
-- `ux-ui-test-cases.csv` — Full UX/UI test case suite (SL-001 to SL-060, SL-116)
-- `functional-test-cases.csv` — Full functional test case suite (SL-061 to SL-115)
-- `test-execution-standard-user.csv` — Execution results for `standard_user`
-- `test-execution-locked-out-user.csv` — Execution results for `locked_out_user`
-- `test-execution-problem-user.csv` — Execution results for `problem_user`
-- `test-execution-performance-glitch-user.csv` — Execution results for `performance_glitch_user`
-- `test-execution-error-user.csv` — Execution results for `error_user`
-- `test-execution-visual-user.csv` — Execution results for `visual_user`
-- `compatibility-matrix.csv` — Cross-platform execution results for `standard_user`
-- `bug-report.csv` — Full bug report (BUGSL-001 to BUGSL-032)
+```text
+SauceDemo_manual_testing_suite/
+├── Test Suite SauceDemo.com (Manual).xlsx
+└── README.md
+```
+```text
+Workbook Structure
+├── UX Tests
+├── Functional Tests
+├── Compatibility Matrix
+├── Results - standard_user
+├── Results - locked_out_user
+├── Results - problem_user
+├── Results - performance_glitch_user
+├── Results - error_user
+├── Results - visual_user
+├── Compatibility Results
+└── Bug Report
+```
+
+- `Test Suite SauceDemo.com (Manual).xlsx` — Complete manual QA test suite including UI, UX, functional, compatibility, user-based testing, compatibility matrix, and bug reports organized by document sheet.
+- `ux-ui-test-cases` — Complete UX/UI test case suite (SL-001 to SL-060, SL-116)
+- `functional-test-cases` — Complete functional test case suite (SL-061 to SL-115)
+- `test-execution-standard-user` — Test results for `standard_user`
+- `test-execution-locked-out-user` — Test results for `locked_out_user`
+- `test-execution-problem-user` — Test results for `problem_user`
+- `test-execution-performance-glitch-user` — Test results for `performance_glitch_user`
+- `test-execution-error-user` — Test results for `error_user`
+- `test-execution-visual-user` — Test results for `visual_user`
+- `compatibility-matrix` — Cross-platform execution results for `standard_user`
+- `bug-report` — Complete bug report (BUGSL-001 to BUGSL-032)
+- All execution evidence, screenshots, recordings, and supporting material are referenced directly within the workbook through Google Drive and Loom links.
 
 ---
 
-## 6. Key Decisions — What Did I Prioritize and Why?
+## Key Decisions — What Did I Prioritize and Why?
 
 **Priority assignment** followed a simple principle: the closer a test case is to the core purchase flow, the higher its impact on the user and the business, and therefore the higher its priority. A broken checkout is far more damaging than a misaligned footer icon. This logic applied to both UX/UI and functional cases.
 
@@ -104,21 +156,44 @@ Functional testing went beyond the happy path. Negative and edge case scenarios 
 **Omitted cases** in `problem_user` were a deliberate call. When product entries were confirmed to be mismatched (BUGSL-009), attempting to follow test cases that depended on specific product-to-entry accuracy would have produced misleading results. Omitting them and documenting the reason was more honest and useful than forcing an execution with broken preconditions.
 
 ---
+## Results
 
-## 7. Results
+### Test Execution Overview
+
+![Users_Tested](https://img.shields.io/badge/Users_Tested-6-2563EB?style=flat-square)
+![Test_Cases](https://img.shields.io/badge/Test_Cases-116-059669?style=flat-square)
 
 ### Summary by User
 
 | User | Total | Pass | Partial Pass | Fail | Blocked | Omitted |
 |---|---|---|---|---|---|---|
-| `standard_user` | 122 | 110 | ~6 | 6 | 0 | 0 |
-| `locked_out_user` | ~111 | 1 | 0 | 0 | ~110 | 0 |
-| `problem_user` | ~139 | 99 | — | 8 | 30 | 2 |
-| `performance_glitch_user` | 121 | 117 | — | 4 | 0 | 0 |
-| `error_user` | ~128 | 92 | — | 8 | 28 | 0 |
-| `visual_user` | 119 | 98 | — | 21 | 0 | 0 |
+| `standard_user` | 116 | 110 | ~6 | 6 | 0 | 0 |
+| `locked_out_user` | 106 | 1 | 0 | 0 | 105 | 0 |
+| `problem_user` | 106 | 63 | Variable | 10 | 31 | 2 |
+| `performance_glitch_user` | 106 | 100 | Variable | 6 | 0 | 0 |
+| `error_user` | 106 | 67 | Variable | 10 | 29 | 0 |
+| `visual_user` | 106 | 82 | Variable | 24 | 0 | 0 |
+
+> Partial passes were documented contextually within execution notes when behavior deviated from expected results without fully blocking task completion.
+
+---
+
+### Environment Compatibility Matrix
+
+| Environment | Status | Notes |
+|---|---|---|
+| Chrome (Windows) | Pass | Primary execution environment |
+| Edge (Windows) | Pass | Compatibility validation completed |
+| Chrome (Android) | Pass | Mobile UI/UX compatibility validated |
+
+---
 
 ### Bugs Found: 32 (BUGSL-001 to BUGSL-032)
+
+![Critical](https://img.shields.io/badge/Critical-2-991B1B?style=flat-square)
+![High](https://img.shields.io/badge/High-13-EA580C?style=flat-square)
+![Medium](https://img.shields.io/badge/Medium-8-D97706?style=flat-square)
+![Low](https://img.shields.io/badge/Low-9-65A30D?style=flat-square)
 
 | Severity | Count |
 |---|---|
@@ -126,6 +201,8 @@ Functional testing went beyond the happy path. Negative and edge case scenarios 
 | High | 13 |
 | Medium | 8 |
 | Low | 9 |
+
+---
 
 ### Key Findings
 
@@ -145,7 +222,7 @@ Functional testing went beyond the happy path. Negative and edge case scenarios 
 
 ---
 
-## 8. What Would I Improve Next Time?
+## What Would I Improve Next Time?
 
 **Documentation consistency** — Variable naming and bug ID conventions were not always consistent throughout the test cycle. Standardizing naming from the start (field names, page names, user references) would make the documentation cleaner and easier to cross-reference.
 
